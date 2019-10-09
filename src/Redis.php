@@ -1,10 +1,12 @@
 <?php
 
-namespace Redis;
+namespace jinyicheng\redis;
 
 use BadFunctionCallException;
 use Redis as OriginalRedis;
 use think\Config;
+
+
 
 class Redis
 {
@@ -60,11 +62,10 @@ class Redis
      */
     public static function db($db_number)
     {
-        $hash = (int)$db_number;
-        if (!isset(self::$instance[$hash])) {
-            self::$instance[$hash] = new self($db_number);
+        if (!isset(self::$instance[(int)$db_number])) {
+            self::$instance[(int)$db_number] = new self($db_number);
         }
-        return self::$instance[$hash]->redis;
+        return self::$instance[(int)$db_number]->redis;
     }
 
     /**
@@ -75,5 +76,6 @@ class Redis
         $key = $this->hash;
         self::$instance[$key]->redis->close();
         self::$instance[$key] = null;
+        unset(self::$instance[$key]);
     }
 }
