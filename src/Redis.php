@@ -49,6 +49,8 @@ class Redis
             case class_exists(\Illuminate\Support\Facades\Config::class):
                 $options = \Illuminate\Support\Facades\Config::get('cache.redis');
                 break;
+            default:
+                throw new BadFunctionCallException('not support: config');      //判断是否有扩展
         }
         $this->hash = $db_number;
         $this->redis = new OriginalRedis();
