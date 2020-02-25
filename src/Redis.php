@@ -39,7 +39,7 @@ class Redis
         }
 
         $db_number = (int)$db_number;
-        $options=self::config('cache.redis');
+        $options=config('redis');
         $this->hash = $db_number;
         $this->redis = new OriginalRedis();
         $func = $options['persistent'] ? 'pconnect' : 'connect';     //长链接
@@ -61,28 +61,12 @@ class Redis
     public static function db($db_number=null)
     {
         if(is_null($db_number)){
-            $db_number=self::config('redis.db');
+            $db_number=config('redis.db');
         }
         if (!isset(self::$instance[(int)$db_number])) {
             self::$instance[(int)$db_number] = new self($db_number);
         }
         return self::$instance[(int)$db_number]->redis;
-    }
-
-    private static function config($conf=''){
-        switch (true) {
-            case class_exists(\think\Config::class):
-                return \think\Config::get($conf);
-                break;
-            case class_exists(\think\Facade\Config::class):
-                $options = \think\Facade\Config::get($conf);
-                break;
-            case class_exists(\Illuminate\Support\Facades\Config::class):
-                $options = \Illuminate\Support\Facades\Config::get($conf);
-                break;
-            default:
-                throw new BadFunctionCallException('not support: config');      //判断是否有扩展
-        }
     }
 
     /**
