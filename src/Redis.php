@@ -4,8 +4,6 @@ namespace jinyicheng\redis;
 
 use BadFunctionCallException;
 use Redis as OriginalRedis;
-use think\Config;
-
 
 
 class Redis
@@ -41,7 +39,17 @@ class Redis
         }
 
         $db_number = (int)$db_number;
-        $options = Config::get('cache.redis');
+        switch (true) {
+            case class_exists(\think\Config::class):
+                $options = \think\Config::get('cache.redis');
+                break;
+            case class_exists(\think\Facade\Config::class):
+                $options = \think\Facade\Config::get('cache.redis');
+                break;
+            case class_exists(\Illuminate\Support\Facades\Config::class):
+                $options = \Illuminate\Support\Facades\Config::get('cache.redis');
+                break;
+        }
         $this->hash = $db_number;
         $this->redis = new OriginalRedis();
         $func = $options['persistent'] ? 'pconnect' : 'connect';     //长链接

@@ -1,6 +1,6 @@
 {
   "name": "jinyicheng/redis",
-  "description": "redis单例多库ThinkPHP5.0.*版",
+  "description": "redis单例多库，支持ThinkPHP5，ThinkPHP6，Laravel6",
   "keywords": ["redis","singleton mode"],
   "license": "MIT",
   "authors": [
@@ -15,8 +15,7 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "ext-redis": "*",
-    "topthink/framework": "5.0.*"
+    "ext-redis": "*"
   },
   "autoload": {
     "psr-4": {
