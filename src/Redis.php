@@ -32,7 +32,7 @@ class Redis
      *
      * @param int $db_number
      */
-    private function __construct($db_number)
+    private function __construct($db_number=1)
     {
         if (!extension_loaded('redis')) {
             throw new BadFunctionCallException('not support: redis');      //判断是否有扩展
